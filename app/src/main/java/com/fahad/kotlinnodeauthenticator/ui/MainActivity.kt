@@ -1,4 +1,4 @@
-package com.fahad.kotlinnodeauthenticator
+package com.fahad.kotlinnodeauthenticator.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.fahad.kotlinnodeauthenticator.ui.register.RegistrationScreen
 import com.fahad.kotlinnodeauthenticator.ui.theme.KotlinNodeAuthenticatorTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,25 +20,10 @@ class MainActivity : ComponentActivity() {
       KotlinNodeAuthenticatorTheme {
         // A surface container using the 'background' color from the theme
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-          Greeting("Android")
+          RegistrationScreen()
         }
       }
     }
   }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-  Text(
-    text = "Hello $name!",
-    modifier = modifier
-  )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-  KotlinNodeAuthenticatorTheme {
-    Greeting("Android")
-  }
-}
