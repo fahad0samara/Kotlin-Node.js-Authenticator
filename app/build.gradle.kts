@@ -1,6 +1,7 @@
 plugins {
   alias(libs.plugins.androidApplication)
   alias(libs.plugins.kotlinAndroid)
+  kotlin("plugin.serialization") version "1.9.22"
 
 
   alias(libs.plugins.hiltAndroid)
@@ -96,16 +97,13 @@ dependencies {
   implementation(libs.androidx.hilt.navigation.compose.v100)
 
 
+  //kotr
+  implementation(libs.ktor.client.core)
+  implementation(libs.ktor.client.cio)
+  implementation(libs.kotlinx.serialization.json)
 
 
 
-
-  //firebase
-  implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
-  //noinspection UseTomlInstead
-  implementation("com.google.firebase:firebase-analytics-ktx")
-  implementation("com.google.firebase:firebase-auth-ktx")
-  implementation(libs.firebase.storage.ktx)
 
 
 
@@ -113,14 +111,14 @@ dependencies {
   //phothoView
   implementation (libs.coil.compose)
 
-  //WindowSizeClass
-  implementation ("androidx.compose.material3:material3-window-size-class:1.1.2")
+
 
 
 }
 ksp {
   // All KSP Gradle plugin options
   arg("com.google.devtools.ksp.incremental.apt", "true")
+
 
 
 }

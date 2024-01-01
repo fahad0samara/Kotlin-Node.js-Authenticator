@@ -14,14 +14,11 @@ espresso-core = "3.5.1"
 lifecycle-runtime-ktx = "2.6.2"
 activity-compose = "1.8.2"
 compose-bom = "2023.10.01"
-
 coil-compose = "2.4.0"
-
-
-firebase-storage-ktx = "20.3.0"
 navigation-compose = "2.7.6"
-
 ksp = "1.9.20-1.0.14"
+ktor-client-cio = "2.3.7"
+kotlinx-serialization-json = "1.6.0"
 
 [libraries]
 androidx-hilt-navigation-compose-v100 = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidx-hilt-navigation-compose" }
@@ -44,14 +41,12 @@ ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 material3 = { group = "androidx.compose.material3", name = "material3" }
-
-firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebase-storage-ktx" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
-
 hiltAndroidCompiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt-android" }
-
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil-compose" }
-
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor-client-cio" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor-client-cio" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 
 
 [plugins]
