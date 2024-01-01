@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.fahad.kotlinnodeauthenticator.data.repository.RegistrationViewModel
 import com.fahad.kotlinnodeauthenticator.model.UserData
 
 @Composable
