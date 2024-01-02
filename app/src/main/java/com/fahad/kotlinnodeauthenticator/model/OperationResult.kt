@@ -1,3 +1,8 @@
 package com.fahad.kotlinnodeauthenticator.model
 
-data class RegistrationResult(val success: Boolean, val errorMessage: String?)
+data class OperationResult(
+  val success: Boolean,
+  val errorMessage: String? = null,
+  val isLoading: Boolean = false
+)
+

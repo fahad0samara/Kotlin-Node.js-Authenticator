@@ -1,4 +1,4 @@
-package com.fahad.kotlinnodeauthenticator.ui.register
+package com.fahad.kotlinnodeauthenticator.ui.screen.register
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

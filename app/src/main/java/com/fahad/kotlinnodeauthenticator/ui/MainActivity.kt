@@ -10,9 +10,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.fahad.kotlinnodeauthenticator.ui.register.RegistrationScreen
-import com.fahad.kotlinnodeauthenticator.ui.theme.KotlinNodeAuthenticatorTheme
+import com.fahad.kotlinnodeauthenticator.ui.screen.auth.login.LoginScreen
+import com.fahad.kotlinnodeauthenticator.ui.screen.auth.register.RegisterScreen
 
+import com.fahad.kotlinnodeauthenticator.ui.theme.KotlinNodeAuthenticatorTheme
+import dagger.hilt.android.AndroidEntryPoint
+
+
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -20,7 +26,7 @@ class MainActivity : ComponentActivity() {
       KotlinNodeAuthenticatorTheme {
         // A surface container using the 'background' color from the theme
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-          RegistrationScreen()
+          RegisterScreen()
         }
       }
     }

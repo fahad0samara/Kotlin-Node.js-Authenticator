@@ -1,4 +1,9 @@
 package com.fahad.kotlinnodeauthenticator.model
 
-class UserLoginData {
-}
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class UserLoginData(
+  val email: String,
+  val password: String
+)

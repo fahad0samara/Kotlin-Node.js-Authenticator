@@ -1,4 +1,4 @@
-package com.fahad.kotlinnodeauthenticator.ui.register
+package com.fahad.kotlinnodeauthenticator.ui.screen.register
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -26,7 +26,7 @@ import com.fahad.kotlinnodeauthenticator.data.repository.RegistrationViewModel
 import com.fahad.kotlinnodeauthenticator.model.UserData
 
 @Composable
-fun RegistrationScreen(registrationViewModel: RegistrationViewModel = viewModel()) {
+fun RegistrationScreen1(registrationViewModel: RegistrationViewModel = viewModel()) {
   var name by remember { mutableStateOf("") }
   var email by remember { mutableStateOf("") }
   var password by remember { mutableStateOf("") }
