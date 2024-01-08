@@ -1,6 +1,7 @@
 
 package com.fahad.kotlinnodeauthenticator.ui.screen.auth.register
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,31 +27,25 @@ import com.fahad.kotlinnodeauthenticator.ui.screen.auth.compenets.DisplayError
 import com.fahad.kotlinnodeauthenticator.ui.screen.auth.compenets.EmailAndPasswordInputs
 import com.fahad.kotlinnodeauthenticator.ui.screen.auth.compenets.NavigationText
 import androidx.compose.runtime.remember
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.fahad.kotlinnodeauthenticator.data.repository.RegistrationViewModel
-import com.fahad.kotlinnodeauthenticator.model.UserData
+import com.fahad.kotlinnodeauthenticator.model.UserAuthData
+
+import com.fahad.kotlinnodeauthenticator.ui.screen.auth.login.LoginViewModel
 import com.fahad.kotlinnodeauthenticator.ui.theme.dimens
 import com.fahad.kotlinnodeauthenticator.ui.util.Button.LoadingButton
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun RegisterScreen(
-  registrationViewModel: RegistrationViewModel = viewModel()
+    registrationViewModel: RegistrationViewModel,
+
+  navController: androidx.navigation.NavController
 
 ) {
   var name by remember { mutableStateOf("") }
   var email by remember { mutableStateOf("") }
   var password by remember { mutableStateOf("") }
-
   val registrationResult by registrationViewModel.registrationResult.collectAsState()
 
-
-
-//    // Get the result of the image picker
-//    val launcher = rememberLauncherForActivityResult(
-//        contract = ActivityResultContracts.GetContent()
-//    ) { uri: Uri? ->
-//        photoUri = uri
-//    }
 
     Box(
         modifier = Modifier
@@ -81,52 +76,9 @@ fun RegisterScreen(
                 modifier = Modifier.padding(bottom = dimens.medium1)
             )
 
-            // Center the image and show an icon if no image is selected
-//            Box(
-//                modifier = Modifier.fillMaxWidth(),
-//                contentAlignment = Alignment.Center
-//            ) {
-//                // Display the selected image or show an icon
-//                if (photoUri != null) {
-//                    AsyncImageProfile(photoUrl = photoUri.toString())
-//                } else {
-//                    Icon(
-//                        imageVector = Icons.Default.Person,
-//                        contentDescription = "No photo selected",
-//                        tint = MaterialTheme.colorScheme.primary,
-//                        modifier = Modifier
-//                            .size( dimens.imageSize0)
-//                            .align(Alignment.Center)
-//                            .border(2.dp, Color.Yellow, CircleShape)
-//                    )
-//                }
-//            }
 
-            // Button to open the image picker
-//            Row(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(bottom = dimens.small1),
-//                horizontalArrangement = Arrangement.Center
-//            ) {
-//                Button(
-//                    onClick = { launcher.launch("image/*") },
-//                    modifier = Modifier.padding(dimens.small3)
-//                ) {
-//                    Text("Select Photo")
-//                }
-//
-//                // Button to clear the selected image
-//                if (photoUri != null) {
-//                    Button(
-//                        onClick = { photoUri = null },
-//                        modifier = Modifier
-//                            .padding(dimens.small3)
-//                    ) {
-//                        Text("Clear")
-//                    }
-//                }
-//            }
+
+
 
             EmailAndPasswordInputs(
                 name = name,
@@ -146,21 +98,29 @@ fun RegisterScreen(
           registrationResult?.let { DisplayError(it) }
 
             // Register Button
-            LoadingButton(
-                text = "Register",
-                isLoading = registrationResult?.isLoading ?: false,
-                enabled = !(name.isBlank() || email.isBlank() || password.isBlank()),
-                textloading = "Registering...",
-                onClick = {
-                  val userRegistrationData = UserData(0, name, email, password, "")
-                  registrationViewModel.registerUser(userRegistrationData)
-                },
+          LoadingButton(
+            text = "Register",
+            isLoading = registrationResult?.isLoading ?: false,
+            enabled = !(name.isBlank() || email.isBlank() || password.isBlank()),
+            textloading = "Registering...",
+            onClick = {
+              val userRegistrationData = UserAuthData(
+                id = 0,
 
+                name = name,
+                email = email,
+                password = password,
+                role = "user",
+              )
+              registrationViewModel.registerUser(userRegistrationData, navController)
+            }
             )
+
+
             NavigationText(
                 text = "Already have an account? Login",
                 onClick = {
-//                    navController.navigate("login")
+                    navController.navigate("login")
                 }
             )
         }

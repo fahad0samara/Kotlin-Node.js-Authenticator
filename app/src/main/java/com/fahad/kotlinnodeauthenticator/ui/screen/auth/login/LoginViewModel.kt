@@ -1,52 +1,95 @@
-//package com.fahad.RecipeRover.ui.screen.auth.login
-//
-//import androidx.compose.runtime.mutableStateOf
-//import androidx.lifecycle.ViewModel
-//import androidx.lifecycle.viewModelScope
-//import androidx.navigation.NavController
-//import com.fahad.RecipeRover.domain.model.Response
-//import com.fahad.RecipeRover.domain.model.User
-//import com.fahad.RecipeRover.domain.repository.AuthRepository
-//import com.fahad.RecipeRover.ui.screen.UserDataViewModel
-//
-//import dagger.hilt.android.lifecycle.HiltViewModel
-//import kotlinx.coroutines.flow.MutableStateFlow
-//import kotlinx.coroutines.flow.StateFlow
-//import kotlinx.coroutines.flow.first
-//import kotlinx.coroutines.launch
-//import javax.inject.Inject
-//
-//
-//@HiltViewModel
-//class LoginViewModel @Inject constructor(private val repository: AuthRepository,
-//                                         private val userDataViewModel: UserDataViewModel
-//    ) : ViewModel() {
-//    private val _loginState = MutableStateFlow<Response<User>>(Response.Loading)
-//    val loginState: StateFlow<Response<User>> = _loginState
-//    private val _isLoading = mutableStateOf(false)
-//    val isLoading: Boolean
-//        get() = _isLoading.value
-//    fun login(email: String, password: String, navController: NavController) {
-//        _isLoading.value = true  // Set loading state to true at the beginning of the login process
-//        viewModelScope.launch {
-//            _loginState.value = Response.Loading
-//            val loginResult = repository.loginUser(email, password).first()
-//            _loginState.value = loginResult
-//            _isLoading.value = false
-//
-//
-//            if (loginResult is Response.Success) {
-//                // Login successful, update the user in the ViewModel
-//                val user = loginResult.data
-//
-//                userDataViewModel.getUserData()
-//                navController.navigate(
-//                      "home"
-//
-//                  )
-//            }
-//
-//
-//        }
-//    }
-//}
+package com.fahad.kotlinnodeauthenticator.ui.screen.auth.login
+
+import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+
+import androidx.navigation.NavController
+import com.fahad.kotlinnodeauthenticator.data.repository.LoginRepository
+import com.fahad.kotlinnodeauthenticator.model.OperationResult
+import com.fahad.kotlinnodeauthenticator.model.UserAuthData
+
+import com.fahad.kotlinnodeauthenticator.ui.HomeViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+
+import javax.inject.Inject
+
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+  private val repository: LoginRepository,
+  private val homeViewModel: HomeViewModel
+) : ViewModel() {
+
+  private val _loginResult = MutableStateFlow<OperationResult?>(null)
+  val loginResult: StateFlow<OperationResult?> = _loginResult
+
+  init {
+    // Check for an existing token when the ViewModel is created
+    val token = repository.getToken()
+    if (token != null) {
+      // For simplicity, we assume the token is always valid in this example
+      val result = OperationResult(success = true, errorMessage = null)
+      _loginResult.value = result
+
+      // Fetch user information immediately after login
+      fetchUserInfoAfterLogin(result)
+    }
+  }
+
+  fun loginUser(userCommonData: UserAuthData, navController: NavController) {
+    viewModelScope.launch {
+      try {
+        val result = repository.loginUser(userCommonData)
+
+        if (result.success) {
+          _loginResult.value = result
+          homeViewModel.setUserInfo(result)
+
+          navController.navigate("home")
+        } else {
+          _loginResult.value =
+            OperationResult(success = false, errorMessage = result.errorMessage)
+        }
+      } catch (e: Exception) {
+        _loginResult.value =
+          OperationResult(success = false, errorMessage = "Error: ${e.message}")
+      }
+    }
+  }
+
+  private fun fetchUserInfoAfterLogin(result: OperationResult) {
+    viewModelScope.launch {
+      try {
+        val userInfo = repository.fetchUserInfo()
+        homeViewModel.setUserInfo(
+          OperationResult(
+            success = true,
+            errorMessage = null,
+            name = userInfo.name,
+            email = userInfo.email
+          )
+        )
+        Log.d("LoginViewModel", "Fetched user info after login: $userInfo")
+      } catch (e: Exception) {
+        // Handle errors if needed
+        Log.e("LoginViewModel", "Error fetching user info after login: ${e.message}")
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
